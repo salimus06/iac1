@@ -2,28 +2,31 @@ name: Terraform CI/CD
 
 # Controls when the workflow will run
 on:
-  # Triggers the workflow on push or pull request events but only for the main branch
+  # Triggers the workflow on push events to the main branch, but only when changes are made under the f_github_actions folder
   push:
     paths: [ e_github_actions ]
     branches: [ main ]
+
+  # Triggers the workflow on pull request events targeting the main branch
   pull_request:
     branches: [ main ]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
-# Default configuration 
+# Default configuration
 defaults:
   run:
     shell: bash
     working-directory: e_github_actions
-    
+
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "tf_apply"
   tf_apply:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
+
     # Environment variables available to the job
     env:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
@@ -39,8 +42,15 @@ jobs:
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v1
 
-      # TODO: Complete CI/CD Pipeline
-      
-        
-        
-      
+      # Format Terraform code and fail if incorrectly formatted
+      - name: Terraform Format Check
+        run: terraform fmt -check -recursive
+        continue-on-error: false
+
+      # Initialize Terraform configurations
+      - name: Terraform Init
+        run: terraform init
+
+      # Apply Terraform configuration automatically
+      - name: Terraform Apply
+        run: terraform apply -auto-approve
