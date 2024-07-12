@@ -4,7 +4,7 @@ name: Terraform CI/CD
 on:
   # Triggers the workflow on push or pull request events but only for the main branch
   push:
-    paths: [ f_github_actions ]
+    paths: [ e_github_actions ]
     branches: [ main ]
   pull_request:
     branches: [ main ]
@@ -16,7 +16,7 @@ on:
 defaults:
   run:
     shell: bash
-    working-directory: f_github_actions
+    working-directory: e_github_actions
     
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -40,6 +40,18 @@ jobs:
         uses: hashicorp/setup-terraform@v1
 
       # TODO: Complete CI/CD Pipeline
+        # Format Terraform code and fail if incorrectly formatted
+      - name: Terraform Format Check
+        run: terraform fmt -check -recursive
+        continue-on-error: false
+
+      # Initialize Terraform configurations
+      - name: Terraform Init
+        run: terraform init
+
+      # Apply Terraform configuration automatically
+      - name: Terraform Apply
+        run: terraform apply -auto-approve
         
         
       
