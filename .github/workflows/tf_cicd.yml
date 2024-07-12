@@ -40,18 +40,7 @@ jobs:
         uses: hashicorp/setup-terraform@v1
 
       # TODO: Complete CI/CD Pipeline
-        # Format Terraform code and fail if incorrectly formatted
-      - name: Terraform Format Check
-        run: terraform fmt -check -recursive
-        continue-on-error: false
-
-      # Initialize Terraform configurations
-      - name: Terraform Init
-        run: terraform init
-
-      # Apply Terraform configuration automatically
-      - name: Terraform Apply
-        run: terraform apply -auto-approve
+      
         
         
       
