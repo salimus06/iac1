@@ -4,7 +4,7 @@ name: Terraform CI/CD
 on:
   # Triggers the workflow on push events to the main branch, but only when changes are made under the f_github_actions folder
   push:
-    paths: [ e_github_actions ]
+    paths: 'e_github_actions/**'
     branches: [ main ]
 
   # Triggers the workflow on pull request events targeting the main branch
